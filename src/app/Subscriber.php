@@ -1,6 +1,6 @@
 <?php 
 
-namespace almakano\botsmanager;
+namespace almakano\botsmanager\app;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -1,5 +1,5 @@
 {
-    "name": "almakano/laravelbotmanager",
+    "name": "almakano/botsmanager",
     "description": "A bot manager for laravel",
     "type": "library",
     "license": "MIT",

@@ -29,6 +29,8 @@ class CreateBotsmanagerTables extends Migration
             $table->string('name')->nullable();
             $table->text('data')->nullable();
             $table->text('data_session')->nullable();
+            $table->index(['bot_id']);
+            $table->index(['platform_name', 'platform_id']);
             $table->timestamps();
         });
         Schema::create('bots_logic', function (Blueprint $table) {

@@ -1,6 +1,7 @@
 {
     "name": "almakano/botsmanager",
     "description": "A bot manager for laravel",
+    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -9,9 +10,10 @@
             "email": "almakano@gmail.com"
         }
     ],
+    "keywords": ["laravel", "bot", "manager"],
+    "homepage": "https://github.com/almakano/botsmanager",
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {"almakano\\botsmanager\\": "src/"}
-    },
-    "require": {}
+    }
 }

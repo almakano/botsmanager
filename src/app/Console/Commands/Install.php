@@ -30,7 +30,6 @@ class Install extends Command
 		$this->line(' Publishing configs, views, js and css files');
 		$this->executeArtisanProcess('vendor:publish', [
 			'--provider' => 'almakano\botsmanager\ManagerServiceProvider',
-			'--tag' => 'minimum',
 		]);
 
 		$this->line(" Creating tables (using Laravel's default migration)");

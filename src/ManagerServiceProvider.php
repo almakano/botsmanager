@@ -19,9 +19,10 @@ class ManagerServiceProvider extends ServiceProvider
     public function publishFiles()
     {
     	$this->publishes([__DIR__.'/resources/views' => resource_path('views/vendor/almakano/botsmanager')], 'views');
+    	$this->publishes([__DIR__.'/../database/migrations' => database_path('migrations')]);
     }
 
-    public function setupRoutes(Router $router)
+    public function setupRoutes(\Illuminate\Routing\Router $router)
     {
     	$this->loadRoutesFrom(base_path().__DIR__.'/routes/botsmanager.php');
     }

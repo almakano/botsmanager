@@ -6,8 +6,8 @@
 
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="/botsmanager/logic">Логика</a></li>
-			<li class="breadcrumb-item"><a href="/botsmanager/logic/{{ $item->id }}">#{{ $item->id }}</a></li>
+			<li class="breadcrumb-item"><a href="/botsmanager/logics">Логика</a></li>
+			<li class="breadcrumb-item"><a href="/botsmanager/logics/{{ $item->id }}">#{{ $item->id }}</a></li>
 		</ol>
 	</nav>
 

@@ -15,8 +15,8 @@ class LogicController extends Controller
 	public function edit(Request $request, $id = 0)
 	{
 
-		if($id) $item = \almakano\botsmanager\app\logic::where(['id' => $id])->firstOrFail();
-		else $item = new \almakano\botsmanager\app\logic();
+		if($id) $item = \almakano\botsmanager\app\Logic::where(['id' => $id])->firstOrFail();
+		else $item = new \almakano\botsmanager\app\Logic();
 
 		if($request->method() == 'POST') {
 
@@ -33,7 +33,7 @@ class LogicController extends Controller
 	public function delete(Request $request, $id = 0)
 	{
 
-		$item = \almakano\botsmanager\app\logic::where(['id' => $id])->firstOrFail();
+		$item = \almakano\botsmanager\app\Logic::where(['id' => $id])->firstOrFail();
 
 		if($request->method() == 'POST') {
 			$item->delete();

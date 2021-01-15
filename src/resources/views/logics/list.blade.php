@@ -6,11 +6,11 @@
 
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="/botsmanager/logic">Логика</a></li>
+			<li class="breadcrumb-item"><a href="/botsmanager/logics">Логика</a></li>
 		</ol>
 	</nav>
 
-	<h1>Логика <a class="btn btn-link" href="/botsmanager/logic/add">Добавить</a></h1>
+	<h1>Логика <a class="btn btn-link" href="/botsmanager/logics/add">Добавить</a></h1>
 
 	<div class="row">
 		@foreach($list as $i)
@@ -22,7 +22,7 @@
 					</div>
 					<div class="card-body"></div>
 					<div class="card-footer">
-						<a class="btn" href="/logic/{{ $i->id }}/edit">Изменить</a>
+						<a class="btn" href="/botsmanager/logics/{{ $i->id }}/edit">Изменить</a>
 					</div>
 				</div>
 			</div>

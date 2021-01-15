@@ -9,7 +9,7 @@ class BotController extends Controller
 
 	public function index()
 	{
-		return view('botsmanager::bots.index', ['list' => \almakano\botsmanager\app\Bot::get()]);
+		return view('botsmanager::bots.list', ['list' => \almakano\botsmanager\app\Bot::get()]);
 	}
 
 	public function edit($id = 0)

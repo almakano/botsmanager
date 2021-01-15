@@ -9,7 +9,7 @@ class LogicController extends Controller
 
 	public function index()
 	{
-		return view('botsmanager::logics.index', ['list' => \almakano\botsmanager\app\Logic::get()]);
+		return view('botsmanager::logics.list', ['list' => \almakano\botsmanager\app\Logic::get()]);
 	}
 
 	public function edit($id = 0)

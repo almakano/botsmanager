@@ -9,7 +9,7 @@ class SubscriberController extends Controller
 
 	public function index()
 	{
-		return view('botsmanager::subscribers.index', ['list' => \almakano\botsmanager\app\Subscriber::get()]);
+		return view('botsmanager::subscribers.list', ['list' => \almakano\botsmanager\app\Subscriber::get()]);
 	}
 
 	public function edit($id = 0)

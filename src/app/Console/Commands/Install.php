@@ -13,6 +13,8 @@ class Install extends Command
 								{--timeout=300} : How many seconds to allow each process to run.
 								{--debug} : Show process output or not. Useful for debugging';
 
+	protected $description = 'Install botsmanager';
+
 	public function handle()
 	{
 		$this->progressBar = $this->output->createProgressBar(5);
@@ -31,11 +33,8 @@ class Install extends Command
 			'--tag' => 'minimum',
 		]);
 
-		$this->line(" Creating users table (using Laravel's default migration)");
+		$this->line(" Creating tables (using Laravel's default migration)");
 		$this->executeArtisanProcess('migrate');
-
-		$this->line(" Creating App\Http\Middleware\CheckIfAdmin.php");
-		$this->executeArtisanProcess('botsmanager:publish-middleware');
 
 		$this->progressBar->finish();
 		$this->info(' BotsManager installation finished.');

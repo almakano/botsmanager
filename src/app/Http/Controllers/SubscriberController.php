@@ -7,21 +7,22 @@ use Illuminate\Routing\Controller;
 class SubscriberController extends Controller
 {
 
-	public function index()
+	public function index(Request $request)
 	{
 		return view('botsmanager::subscribers.list', ['list' => \almakano\botsmanager\app\Subscriber::get()]);
 	}
 
-	public function edit($id = 0)
+	public function edit(Request $request, $id = 0)
 	{
 
-		$item = \almakano\botsmanager\app\Subscriber::where(['id' => $id])->firstOrFail();
+		if($id) $item = \almakano\botsmanager\app\Subscriber::where(['id' => $id])->firstOrFail();
+		else $item = new \almakano\botsmanager\app\Subscriber();
 
-		if(Request::method() == 'POST') {
+		if($request->method() == 'POST') {
 
-			$item->name		 = Request::input('name');
-			$item->bot_id	 = Request::input('bot_id');
-			$item->data		 = json_encode(Request::input('data'), JSON_UNESCAPED_UNICODE);
+			$item->name		 = $request->input('name');
+			$item->bot_id	 = $request->input('bot_id');
+			$item->data		 = json_encode($request->input('data'), JSON_UNESCAPED_UNICODE);
 			$item->save();
 
 			redirect('');
@@ -30,12 +31,12 @@ class SubscriberController extends Controller
 		return view('botsmanager::subscribers.edit', ['item' => $item]);
 	}
 
-	public function delete($id = 0)
+	public function delete(Request $request, $id = 0)
 	{
 
 		$item = \almakano\botsmanager\app\Subscriber::where(['id' => $id])->firstOrFail();
 
-		if(Request::method() == 'POST') {
+		if($request->method() == 'POST') {
 			$item->delete();
 			redirect('/botsmanager/subscribers');
 		}

@@ -10,7 +10,7 @@
 
 		<div class="card">
 			<div class="card-header">
-				<input required name="name" class="form-control" value="{{ $item->name }}">
+				<input required name="name" class="form-control" value="{{ $item->name }}" placeholder="Название">
 			</div>
 			<div class="card-body">
 				<div class="row">

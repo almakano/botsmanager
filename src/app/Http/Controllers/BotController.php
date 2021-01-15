@@ -7,21 +7,22 @@ use Illuminate\Routing\Controller;
 class BotController extends Controller
 {
 
-	public function index()
+	public function index(Request $request)
 	{
 		return view('botsmanager::bots.list', ['list' => \almakano\botsmanager\app\Bot::get()]);
 	}
 
-	public function edit($id = 0)
+	public function edit(Request $request, $id = 0)
 	{
 
-		$item = \almakano\botsmanager\app\Bot::where(['id' => $id])->firstOrFail();
+		if($id) $item = \almakano\botsmanager\app\Bot::where(['id' => $id])->firstOrFail();
+		else $item = new \almakano\botsmanager\app\Bot();
 
-		if(Request::method() == 'POST') {
+		if($request->method() == 'POST') {
 
-			$item->name		 = Request::input('name');
-			$item->logic_id	 = Request::input('logic_id');
-			$item->data		 = json_encode(Request::input('data'), JSON_UNESCAPED_UNICODE);
+			$item->name		 = $request->input('name');
+			$item->logic_id	 = $request->input('logic_id');
+			$item->data		 = json_encode($request->input('data'), JSON_UNESCAPED_UNICODE);
 			$item->save();
 
 			redirect('');
@@ -30,12 +31,12 @@ class BotController extends Controller
 		return view('botsmanager::bots.edit', ['item' => $item]);
 	}
 
-	public function delete($id = 0)
+	public function delete(Request $request, $id = 0)
 	{
 
 		$item = \almakano\botsmanager\app\Bot::where(['id' => $id])->firstOrFail();
 
-		if(Request::method() == 'POST') {
+		if($request->method() == 'POST') {
 			$item->delete();
 			redirect('/botsmanager/bots');
 		}

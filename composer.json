@@ -1,0 +1,17 @@
+{
+    "name": "almakano/laravelbotmanager",
+    "description": "A bot manager for laravel",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexey Makano",
+            "email": "almakano@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {"almakano\\laravelbotmanager\\": "src/"}
+    },
+    "require": {}
+}

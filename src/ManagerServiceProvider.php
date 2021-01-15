@@ -24,6 +24,6 @@ class ManagerServiceProvider extends ServiceProvider
 
     public function setupRoutes(\Illuminate\Routing\Router $router)
     {
-    	$this->loadRoutesFrom(base_path().__DIR__.'/routes/botsmanager.php');
+    	$this->loadRoutesFrom(__DIR__.'/routes/botsmanager.php');
     }
 }

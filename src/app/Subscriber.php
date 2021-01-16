@@ -15,7 +15,9 @@ class Subscriber extends Model
 	function platform() {
 
 		$classname = 'platforms\\'.$this->platform_name;
-		$item = new $classname();
+		$item = new $classname([
+			'bot' => $this->bot
+		]);
 
 		return $item;
 	}

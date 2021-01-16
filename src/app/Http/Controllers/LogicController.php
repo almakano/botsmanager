@@ -3,20 +3,21 @@ namespace almakano\botsmanager\app\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use almakano\botsmanager\app\Logic;
 
 class LogicController extends Controller
 {
 
-	public function index(Request $request)
+	function index(Request $request)
 	{
-		return view('botsmanager::logics.list', ['list' => \almakano\botsmanager\app\Logic::get()]);
+		return view('botsmanager::logics.list', ['list' => Logic::get()]);
 	}
 
-	public function edit(Request $request, $id = 0)
+	function edit(Request $request, $id = 0)
 	{
 
-		if($id) $item = \almakano\botsmanager\app\Logic::where(['id' => $id])->firstOrFail();
-		else $item = new \almakano\botsmanager\app\Logic();
+		if($id) $item = Logic::where(['id' => $id])->firstOrFail();
+		else $item = new Logic();
 
 		if($request->method() == 'POST') {
 
@@ -30,10 +31,10 @@ class LogicController extends Controller
 		return view('botsmanager::logics.edit', ['item' => $item]);
 	}
 
-	public function delete(Request $request, $id = 0)
+	function delete(Request $request, $id = 0)
 	{
 
-		$item = \almakano\botsmanager\app\Logic::where(['id' => $id])->firstOrFail();
+		$item = Logic::where(['id' => $id])->firstOrFail();
 
 		if($request->method() == 'POST') {
 			$item->delete();
@@ -41,5 +42,19 @@ class LogicController extends Controller
 		}
 
 		return view('botsmanager::logics.delete', ['item' => $item]);
+	}
+
+	function autocomplete(Request $request, $id = 0)
+	{
+
+		$q		 = $request->input('q');
+		$page	 = $request->input('page');
+		$limit	 = 20;
+
+		$list	 = Logic::selectRaw('id, name as text')->where('name', 'like', '%'.$q.'%')
+					->offset(($page - 1) * $limit)->limit($limit)->get();
+		$pagination	 = $list->count() >= $limit;
+
+		return \Response::json(['results' => $list, 'pagination' => ['more' => $pagination]]);
 	}
 }

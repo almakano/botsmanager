@@ -14,7 +14,8 @@
     "homepage": "https://github.com/almakano/botsmanager",
     "minimum-stability": "stable",
     "autoload": {
-        "psr-4": {"almakano\\botsmanager\\": "src/"}
+        "psr-4": {"almakano\\botsmanager\\": "src/"},
+        "files": ["src/helpers.php"]
     },
     "extra": {
         "laravel": {

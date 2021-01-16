@@ -10,7 +10,7 @@
 		<li class="breadcrumb-item active"><a href="/botsmanager/subscribers/{{ $item->id ? $item->id.'/edit':'add' }}">#{{ $item->id }}</a></li>
 	</ol>
 
-	<h1>Подписчик #{{ $item->id }}</h1>
+	<h1>Подписчик #{{ $item->id.' '.$item->name }}</h1>
 
 	<form action="" method="POST" class="card">
 

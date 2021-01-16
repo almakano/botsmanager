@@ -5,13 +5,18 @@ namespace almakano\botsmanager\platforms;
 class Telegram
 {
 
+	public $bot;
 	public $api_url = 'https://api.telegram.org/bot';
 
-	function send($method = 'GET', $action = '', $packet = [], $token = '') {
+	function __construct($arg = []) {
+		foreach($arg as $k => $i) $this->$k = $i;
+	}
+
+	function send($method = 'GET', $action = '', $packet = []) {
 
 		try {
 			$packet = json_encode($packet, JSON_UNESCAPED_UNICODE);
-			$res = file_put_contents($api_url.$token, false, stream_context_create([
+			$res = file_put_contents($api_url.$this->get_token(), false, stream_context_create([
 				'http' => [
 					'method' => $method,
 					'header' => implode(PHP_EOL, [
@@ -35,6 +40,21 @@ class Telegram
 
 		}
 
-		file_put_contents(base_path().'/telegram.log', date('Y-m-d H:i:s').' '.$res.' '.$packet.PHP_EOL, FILE_APPEND);
+		file_put_contents(storage_path().'/logs/telegram.log', date('Y-m-d H:i:s').' '.$res.' '.$packet.PHP_EOL, FILE_APPEND);
+	}
+
+	function get_token() {
+
+		return $this->bot->data['telegram']['token'];
+	}
+
+	function activate() {
+
+		$this->send('POST', 'setWebhook', ['url' => 'https://'.$_SERVER['HTTP_HOST'].'/botsmanager/bots/'.$this->bot->id.'/receive/telegram']);
+	}
+
+	function deactivate() {
+
+		$this->send('POST', 'deleteWebhook');
 	}
 }

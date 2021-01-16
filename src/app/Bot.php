@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Bot extends Model
 {
 
+	protected $casts = [
+		'data' => 'array',
+	];
+
 	function logic() {
 		return $this->hasOne(Logic::class, 'id', 'logic_id');
 	}

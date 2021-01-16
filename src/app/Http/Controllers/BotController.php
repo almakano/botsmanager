@@ -3,20 +3,28 @@ namespace almakano\botsmanager\app\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use almakano\botsmanager\app\Bot;
 
 class BotController extends Controller
 {
 
-	public function index(Request $request)
+	function index(Request $request)
 	{
-		return view('botsmanager::bots.list', ['list' => \almakano\botsmanager\app\Bot::get()]);
+
+		$filter = [];
+
+		foreach($request->all() as $k => $v) {
+			if(in_array($k, ['id'])) $filter[$k] = $v;
+		}
+
+		return view('botsmanager::bots.list', ['list' => Bot::where($filter)->get()]);
 	}
 
-	public function edit(Request $request, $id = 0)
+	function edit(Request $request, $id = 0)
 	{
 
-		if($id) $item = \almakano\botsmanager\app\Bot::where(['id' => $id])->firstOrFail();
-		else $item = new \almakano\botsmanager\app\Bot();
+		if($id) $item = Bot::where(['id' => $id])->firstOrFail();
+		else $item = new Bot();
 
 		if($request->method() == 'POST') {
 
@@ -31,10 +39,10 @@ class BotController extends Controller
 		return view('botsmanager::bots.edit', ['item' => $item]);
 	}
 
-	public function delete(Request $request, $id = 0)
+	function delete(Request $request, $id = 0)
 	{
 
-		$item = \almakano\botsmanager\app\Bot::where(['id' => $id])->firstOrFail();
+		$item = Bot::where(['id' => $id])->firstOrFail();
 
 		if($request->method() == 'POST') {
 			$item->delete();
@@ -42,5 +50,30 @@ class BotController extends Controller
 		}
 
 		return view('botsmanager::bots.delete', ['item' => $item]);
+	}
+
+	function autocomplete(Request $request, $id = 0)
+	{
+
+		$q		 = $request->input('q');
+		$page	 = $request->input('page');
+		$limit	 = 20;
+
+		$list	 = Bot::selectRaw('id, name as text')->where('name', 'like', '%'.$q.'%')
+					->offset(($page - 1) * $limit)->limit($limit)->get();
+		$pagination	 = $list->count() >= $limit;
+
+		return \Response::json(['results' => $list, 'pagination' => ['more' => $pagination]]);
+	}
+
+	function receive(Request $request, $id = 0, $platform_name = '')
+	{
+
+		$item = Bot::where(['id' => $id])->firstOrFail();
+
+		$platform_name = '\almakano\botsmanager\app\platforms\\'.$platform_name;
+		$platform = new $platform_name(['bot' => $item]);
+
+		$platform->receive();
 	}
 }

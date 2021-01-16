@@ -8,7 +8,8 @@
 	<title>@yield('title', 'BotsManager')</title>
 
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<link rel="stylesheet" href="{{ asset('vendor/botsmanager/bootstrap.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('vendor/botsmanager/bootstrap.min.css', 0) }}">
+	<link rel="stylesheet" href="{{ asset('vendor/botsmanager/template.css', 0) }}">
 </head>
 
 <body>
@@ -21,7 +22,8 @@
 		</div>
 	</div>
 
-	<script src="{{ asset('vendor/botsmanager/jquery.min.js') }}"></script>
-	<script src="{{ asset('vendor/botsmanager/bootstrap.min.js') }}"></script>
+	<script src="{{ asset('vendor/botsmanager/jquery.min.js', 0) }}"></script>
+	<script src="{{ asset('vendor/botsmanager/bootstrap.min.js', 0) }}"></script>
+	<script src="{{ asset('vendor/botsmanager/template.js', 0) }}"></script>
 </body>
 </html>

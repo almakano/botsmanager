@@ -4,11 +4,10 @@
 
 @section('content')
 
-	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="/botsmanager/logics">Логика</a></li>
-		</ol>
-	</nav>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="/botsmanager">Ботменеджер</a></li>
+		<li class="breadcrumb-item active"><a href="/botsmanager/logics">Логика</a></li>
+	</ol>
 
 	<h1>Логика <a class="btn btn-link" href="/botsmanager/logics/add">Добавить</a></h1>
 

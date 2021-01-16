@@ -6,7 +6,8 @@
 
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="/botsmanager/subscribers">Подписчики</a></li>
+			<li class="breadcrumb-item"><a href="/botsmanager">Ботменеджер</a></li>
+			<li class="breadcrumb-item active"><a href="/botsmanager/subscribers">Подписчики</a></li>
 		</ol>
 	</nav>
 
@@ -18,7 +19,9 @@
 			<div class="card">
 				<div class="card">
 					<div class="card-header">
-						<div class="name">{{ $i->name }}</div>
+						<span class="name">{{ $i->name }}</span>
+						<span class="platform_name">{{ $i->platform_name }}</span>
+						<span class="platform_id">{{ $i->platform_id }}</span>
 					</div>
 					<div class="card-body"></div>
 					<div class="card-footer">

@@ -1,15 +1,14 @@
 @extends('botsmanager::index')
 
-@section('title', 'Подписчик #{{ $item->id }}')
+@section('title', 'Подписчик #'.$item->id)
 
 @section('content')
 
-	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="/botsmanager/subscribers">Подписчики</a></li>
-			<li class="breadcrumb-item"><a href="/botsmanager/subscribers/{{ $item->id }}">#{{ $item->id }}</a></li>
-		</ol>
-	</nav>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="/botsmanager">Ботменеджер</a></li>
+		<li class="breadcrumb-item"><a href="/botsmanager/subscribers">Подписчики</a></li>
+		<li class="breadcrumb-item active"><a href="/botsmanager/subscribers/{{ $item->id ? $item->id.'/edit':'add' }}">#{{ $item->id }}</a></li>
+	</ol>
 
 	<h1>Подписчик #{{ $item->id }}</h1>
 

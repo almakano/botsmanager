@@ -6,27 +6,22 @@
 		'prefix'     => 'botsmanager',
 	],
 	function () {
-		Route::get('bots', 'BotController@index');
-		Route::get('bots/add', 'BotController@edit');
-		Route::get('bots/{id}/edit', 'BotController@edit');
-		Route::post('bots/{id}/edit', 'BotController@edit');
-		Route::get('bots/{id}/delete', 'BotController@delete');
-		Route::post('bots/{id}/delete', 'BotController@delete');
-		Route::get('bots/{id}/subscribers', 'BotController@subscribers');
+		Route::any('/', 'BotController@index');
+		Route::any('bots', 'BotController@index');
+		Route::any('bots/add', 'BotController@edit');
+		Route::any('bots/{id}/edit', 'BotController@edit');
+		Route::any('bots/{id}/delete', 'BotController@delete');
+		Route::any('bots/{id}/subscribers', 'BotController@subscribers');
 
-		Route::get('subscribers', 'SubscriberController@index');
-		Route::get('subscribers/add', 'SubscriberController@edit');
-		Route::get('subscribers/{id}/edit', 'SubscriberController@edit');
-		Route::post('subscribers/{id}/edit', 'SubscriberController@edit');
-		Route::get('subscribers/{id}/delete', 'SubscriberController@delete');
-		Route::post('subscribers/{id}/delete', 'SubscriberController@delete');
+		Route::any('subscribers', 'SubscriberController@index');
+		Route::any('subscribers/add', 'SubscriberController@edit');
+		Route::any('subscribers/{id}/edit', 'SubscriberController@edit');
+		Route::any('subscribers/{id}/delete', 'SubscriberController@delete');
 
-		Route::get('logics', 'LogicController@index');
-		Route::get('logics/add', 'LogicController@edit');
-		Route::get('logics/{id}/edit', 'LogicController@edit');
-		Route::post('logics/{id}/edit', 'LogicController@edit');
-		Route::get('logics/{id}/delete', 'LogicController@delete');
-		Route::post('logics/{id}/delete', 'LogicController@delete');
+		Route::any('logics', 'LogicController@index');
+		Route::any('logics/add', 'LogicController@edit');
+		Route::any('logics/{id}/edit', 'LogicController@edit');
+		Route::any('logics/{id}/delete', 'LogicController@delete');
 	});
 
 ?>

@@ -1,8 +1,14 @@
 @extends('botsmanager::index')
 
-@section('title', 'Бот #{{ $item->id }}')
+@section('title', 'Бот #'.$item->id)
 
 @section('content')
+
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="/botsmanager">Ботменеджер</a></li>
+		<li class="breadcrumb-item active"><a href="/botsmanager/bots">Боты</a></li>
+		<li class="breadcrumb-item active"><a href="/botsmanager/bots/{{ $item->id ? $item->id.'/edit':'add' }}">#{{ $item->id }}</a></li>
+	</ol>
 
 	<h1>Бот #{{ $item->id }}</h1>
 

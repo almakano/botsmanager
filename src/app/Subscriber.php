@@ -9,7 +9,7 @@ class Subscriber extends Model
 	protected $table = 'bots_users';
 
 	function bot() {
-		return $this->hasOne('Bot', 'id', 'bot_id');
+		return $this->hasOne(Bot::class, 'id', 'bot_id');
 	}
 
 	function platform() {

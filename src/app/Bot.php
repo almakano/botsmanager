@@ -8,10 +8,10 @@ class Bot extends Model
 {
 
 	function logic() {
-		return $this->hasOne('Logic', 'id', 'logic_id');
+		return $this->hasOne(Logic::class, 'id', 'logic_id');
 	}
 
 	function subscribers() {
-		return $this->hasMany('Subscriber', 'bot_id', 'id');
+		return $this->hasMany(Subscriber::class, 'bot_id', 'id');
 	}
 }

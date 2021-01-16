@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Subscriber extends Model
 {
 	protected $table = 'bots_users';
+	protected $casts = [
+		'data' => 'array',
+		'data_session' => 'array',
+	];
 
 	function bot() {
 		return $this->hasOne(Bot::class, 'id', 'bot_id');
@@ -14,7 +18,7 @@ class Subscriber extends Model
 
 	function platform() {
 
-		$classname = 'platforms\\'.$this->platform_name;
+		$classname = 'Platforms\\'.ucfirst($this->platform_name);
 		$item = new $classname([
 			'bot' => $this->bot
 		]);

@@ -28,12 +28,18 @@ class BotController extends Controller
 
 		if($request->method() == 'POST') {
 
-			$item->name		 = $request->input('name');
-			$item->logic_id	 = $request->input('logic_id');
-			$item->data		 = json_encode($request->input('data'), JSON_UNESCAPED_UNICODE);
+			$keys = \Schema::getColumnListing($item->getTable());
+
+			foreach($request->all() as $k => $v)
+				if(in_array($k, $keys))
+					$item->$k = $v;
+
 			$item->save();
 
-			redirect('');
+			if(!empty($request->input('_ajax')))
+				return '<script>location.href="'.action([static::class, 'index']).'"; </script>';
+
+			return redirect()->action([static::class, 'index']);
 		}
 
 		return view('botsmanager::bots.edit', ['item' => $item]);
@@ -46,8 +52,13 @@ class BotController extends Controller
 
 		if($request->method() == 'POST') {
 			$item->delete();
-			redirect('/botsmanager/bots');
+
+			if(!empty($request->input('_ajax')))
+				return '<script>location.href="'.action([static::class, 'index']).'"; </script>';
+
+			return redirect()->action([static::class, 'index']);
 		}
+
 
 		return view('botsmanager::bots.delete', ['item' => $item]);
 	}
@@ -56,7 +67,7 @@ class BotController extends Controller
 	{
 
 		$q		 = $request->input('q');
-		$page	 = $request->input('page');
+		$page	 = (int) $request->input('page');
 		$limit	 = 20;
 
 		$list	 = Bot::selectRaw('id, name as text')->where('name', 'like', '%'.$q.'%')
@@ -71,9 +82,51 @@ class BotController extends Controller
 
 		$item = Bot::where(['id' => $id])->firstOrFail();
 
-		$platform_name = '\almakano\botsmanager\app\platforms\\'.$platform_name;
+		$platform_name = '\almakano\botsmanager\app\Platforms\\'.ucfirst($platform_name);
 		$platform = new $platform_name(['bot' => $item]);
 
 		$platform->receive();
+	}
+
+	function activate(Request $request, $id = 0, $platform_name = '')
+	{
+
+		$item = Bot::where(['id' => $id])->firstOrFail();
+
+		$platform_name = '\almakano\botsmanager\app\Platforms\\'.ucfirst($platform_name);
+		$platform = new $platform_name(['bot' => $item]);
+
+		$res = $platform->activate();
+
+		if($res['ok'] == true) {
+			$item->data = array_replace_recursive($item->data, ['telegram' => ['status' => 'Enabled']]);
+			$item->save();
+		}
+
+		if(!empty($request->input('_ajax')))
+			return \Response::make('<script>location.reload(); </script>');
+
+		return redirect()->action([static::class, 'edit'], ['id' => $item->id]);
+	}
+
+	function deactivate(Request $request, $id = 0, $platform_name = '')
+	{
+
+		$item = Bot::where(['id' => $id])->firstOrFail();
+
+		$platform_name = '\almakano\botsmanager\app\Platforms\\'.ucfirst($platform_name);
+		$platform = new $platform_name(['bot' => $item]);
+
+		$res = $platform->deactivate();
+
+		if($res['ok'] == true) {
+			$item->data = array_replace_recursive($item->data, ['telegram' => ['status' => 'Disabled']]);
+			$item->save();
+		}
+
+		if(!empty($request->input('_ajax')))
+			return '<script>location.reload(); </script>';
+
+		return redirect()->action([static::class, 'edit'], ['id' => $item->id]);
 	}
 }

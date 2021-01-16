@@ -14,25 +14,26 @@ var app = {
 			});
 		});
 
-		app.onAjax();
 	},
 	onAjax: function(e){
 
 		e.preventDefault();
-		var th		 = $(this);
-		var url		 = th.attr('action') || th.attr('href');
+		var th		 = $(e.target);
+		var url		 = (typeof th.attr('action') != 'undefined' ? th.attr('action') : th.attr('href'));
 		var target	 = $('<div style="display: none"></div>').appendTo('body');
-		var data	 = {};
+		var data	 = {'_ajax': Date.now(), '_token': $('meta[name="csrf-token"]').attr('content')};
 
-		if(th.attr('action')) th.find('[name]').each(function(){
+		if(typeof th.attr('action') != 'undefined') th.find('[name]').each(function(){
 			var i = $(this);
 			if(i.attr('type') == 'checkbox' && !i.prop('checked')) return;
-			data[i.attr('name')] = i.attr('value');
+			data[i.attr('name')] = i.val();
 		});
 
 		target.load(url, data, function(){
 			target.remove();
+			app.onLoad();
 		});
+
 	}
 };
 

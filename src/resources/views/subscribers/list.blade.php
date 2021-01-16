@@ -20,12 +20,15 @@
 				<div class="card">
 					<div class="card-header">
 						<span class="name">{{ $i->name }}</span>
-						<span class="platform_name">{{ $i->platform_name }}</span>
-						<span class="platform_id">{{ $i->platform_id }}</span>
+						<span class="float-right">
+							<span class="platform_name">{{ $i->platform_name }}</span>
+							<span class="platform_id">{{ $i->platform_id }}</span>
+						</span>
 					</div>
 					<div class="card-body"></div>
 					<div class="card-footer">
-						<a class="btn" href="/botsmanager/subscribers/{{ $i->id }}/edit">Изменить</a>
+						<a class="btn btn-sm" href="/botsmanager/subscribers/{{ $i->id }}/edit">Изменить</a>
+						<a class="btn btn-sm btn-danger" href="/botsmanager/subscribers/{{ $i->id }}/delete">Удалить</a>
 					</div>
 				</div>
 			</div>

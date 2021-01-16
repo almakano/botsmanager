@@ -1,6 +1,6 @@
 @extends('botsmanager::index')
 
-@section('title', 'Логика #'.$item->id)
+@section('title', 'Логика #'.$item->id.' '.$item->name)
 
 @section('content')
 
@@ -10,7 +10,7 @@
 		<li class="breadcrumb-item active"><a href="/botsmanager/logics/{{ $item->id ? $item->id.'/edit':'add' }}">#{{ $item->id }}</a></li>
 	</ol>
 
-	<h1>Логика #{{ $item->id }}</h1>
+	<h1>@yield('title')</h1>
 
 	<form action="" method="POST" class="card">
 

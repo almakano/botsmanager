@@ -13,12 +13,15 @@
 		Route::any('bots/{id}/edit', 'BotController@edit');
 		Route::any('bots/{id}/delete', 'BotController@delete');
 		Route::any('bots/{id}/receive/{platform_name}', 'BotController@receive');
+		Route::any('bots/{id}/activate/{platform_name}', 'BotController@activate');
+		Route::any('bots/{id}/deactivate/{platform_name}', 'BotController@deactivate');
 
 		Route::any('subscribers', 'SubscriberController@index');
 		Route::any('subscribers/autocomplete', 'SubscriberController@autocomplete');
 		Route::any('subscribers/add', 'SubscriberController@edit');
 		Route::any('subscribers/{id}/edit', 'SubscriberController@edit');
 		Route::any('subscribers/{id}/delete', 'SubscriberController@delete');
+		Route::any('subscribers/{id}/sendmessage', 'SubscriberController@sendmessage');
 
 		Route::any('logics', 'LogicController@index');
 		Route::any('logics/autocomplete', 'LogicController@autocomplete');

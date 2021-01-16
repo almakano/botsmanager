@@ -21,11 +21,18 @@ class LogicController extends Controller
 
 		if($request->method() == 'POST') {
 
-			$item->name		 = $request->input('name');
-			$item->data		 = json_encode($request->input('data'), JSON_UNESCAPED_UNICODE);
+			$keys = \Schema::getColumnListing($item->getTable());
+
+			foreach($request->all() as $k => $v)
+				if(in_array($k, $keys))
+					$item->$k = $v;
+
 			$item->save();
 
-			redirect('');
+			if(!empty($request->input('_ajax')))
+				return '<script>location.href="'.action([static::class, 'index']).'"; </script>';
+
+			return redirect()->action([static::class, 'index']);
 		}
 
 		return view('botsmanager::logics.edit', ['item' => $item]);
@@ -38,7 +45,11 @@ class LogicController extends Controller
 
 		if($request->method() == 'POST') {
 			$item->delete();
-			redirect('/botsmanager/logics');
+
+			if(!empty($request->input('_ajax')))
+				return '<script>location.href="'.action([static::class, 'index']).'"; </script>';
+
+			return redirect()->action([static::class, 'index']);
 		}
 
 		return view('botsmanager::logics.delete', ['item' => $item]);
@@ -48,7 +59,7 @@ class LogicController extends Controller
 	{
 
 		$q		 = $request->input('q');
-		$page	 = $request->input('page');
+		$page	 = (int) $request->input('page');
 		$limit	 = 20;
 
 		$list	 = Logic::selectRaw('id, name as text')->where('name', 'like', '%'.$q.'%')

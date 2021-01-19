@@ -3,21 +3,40 @@ namespace almakano\botsmanager\app\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use almakano\botsmanager\app\Logic;
+use almakano\botsmanager\app\Subscriber;
+use almakano\botsmanager\app\SubscriberMessage;
 
-class LogicController extends Controller
+class SubscriberMessageController extends Controller
 {
 
 	function index(Request $request)
 	{
-		return view('botsmanager::logics.list', ['list' => Logic::get()]);
+
+		$sorts = [];
+		$keys = \Schema::getColumnListing(with(new SubscriberMessage)->getTable());
+		foreach($keys as $key) {
+			$sorts[] = $key.' desc';
+			$sorts[] = $key;
+		}
+		$sort = $request->input('sort') ?? 0;
+		$filter = [];
+
+		foreach($request->all() as $k => $v) {
+			if(in_array($k, $keys)) $filter[] = [$k, 'like', $v.'%'];
+		}
+
+		return view('botsmanager::subscribermessage.list', [
+			'list' => SubscriberMessage::where($filter)->orderByRaw($sorts[$sort])->get(),
+			'sort' => $sort,
+			'sorts' => $sorts,
+		]);
 	}
 
 	function edit(Request $request, $id = 0)
 	{
 
-		if($id) $item = Logic::where(['id' => $id])->firstOrFail();
-		else $item = new Logic();
+		if($id) $item = SubscriberMessage::where(['id' => $id])->firstOrFail();
+		else $item = new SubscriberMessage();
 
 		if($request->method() == 'POST') {
 
@@ -35,13 +54,13 @@ class LogicController extends Controller
 			return redirect()->action([static::class, 'index']);
 		}
 
-		return view('botsmanager::logics.edit', ['item' => $item]);
+		return view('botsmanager::subscribermessage.edit', ['item' => $item]);
 	}
 
 	function delete(Request $request, $id = 0)
 	{
 
-		$item = Logic::where(['id' => $id])->firstOrFail();
+		$item = SubscriberMessage::where(['id' => $id])->firstOrFail();
 
 		if($request->method() == 'POST') {
 			$item->delete();
@@ -52,7 +71,7 @@ class LogicController extends Controller
 			return redirect()->action([static::class, 'index']);
 		}
 
-		return view('botsmanager::logics.delete', ['item' => $item]);
+		return view('botsmanager::subscribermessage.delete', ['item' => $item]);
 	}
 
 	function autocomplete(Request $request, $id = 0)
@@ -62,24 +81,10 @@ class LogicController extends Controller
 		$page	 = (int) $request->input('page');
 		$limit	 = 20;
 
-		$list	 = Logic::selectRaw('id, name as text')->where('name', 'like', '%'.$q.'%')
+		$list	 = SubscriberMessage::selectRaw('id, name as text')->where('name', 'like', '%'.$q.'%')
 					->offset(($page - 1) * $limit)->limit($limit)->get();
 		$pagination	 = $list->count() >= $limit;
 
 		return \Response::json(['results' => $list, 'pagination' => ['more' => $pagination]]);
-	}
-
-	function run(Request $request, $id = 0) {
-
-		$item = Logic::where(['id' => $id])->firstOrFail();
-
-		$controller = 'almakano\botsmanager\app\Logics\\'.ucfirst($item->controller);
-		$controller = new $controller();
-		$controller->run();
-
-		if(!empty($request->input('_ajax')))
-			return '<script>app.alert({type: "success", text: "Done", timeout: 3500})</script>';
-
-		return 'Done';
 	}
 }

@@ -10,7 +10,25 @@ class SubscriberController extends Controller
 
 	function index(Request $request)
 	{
-		return view('botsmanager::subscribers.list', ['list' => Subscriber::get()]);
+
+		$sorts = [];
+		$keys = \Schema::getColumnListing(with(new Subscriber)->getTable());
+		foreach($keys as $key) {
+			$sorts[] = $key.' desc';
+			$sorts[] = $key;
+		}
+		$sort = $request->input('sort') ?? 0;
+		$filter = [];
+
+		foreach($request->all() as $k => $v) {
+			if(in_array($k, $keys)) $filter[] = [$k, 'like', $v.'%'];
+		}
+
+		return view('botsmanager::subscribers.list', [
+			'list' => Subscriber::where($filter)->orderByRaw($sorts[$sort])->get(),
+			'sort' => $sort,
+			'sorts' => $sorts,
+		]);
 	}
 
 	function edit(Request $request, $id = 0)
@@ -73,22 +91,35 @@ class SubscriberController extends Controller
 	{
 		$item = Subscriber::where(['id' => $id])->firstOrFail();
 
-		if($request->method() == 'POST') {
+		if($request->method() != 'POST') return \Response::json(['error' => 'POST method only']);
 
-			$platform_name = '\almakano\botsmanager\app\Platforms\\'.ucfirst($item->platform_name);
-			$platform = new $platform_name(['bot' => $item->bot]);
+		$platform_name = '\almakano\botsmanager\app\Platforms\\'.ucfirst(strtolower($item->platform_name));
+		$platform = new $platform_name(['bot' => $item->bot]);
 
-			$platform->sendMessage([
-				
-			]);
+		$platform->sendMessage([
+			'chat_id' => $item->platform_id,
+			'text' => $request->input('message'),
+			'reply_markup' => json_encode([
+				'inline_keyboard' => [
+					[
+						[
+							'text' => 'Yes',
+							// 'url' => 'https://'.$_SERVER['HTTP_HOST'].'/botsmanager/bots/'.$item->bot->id.'/receive/telegram',
+							'callback_data' => 'Yes',
+						],
+						[
+							'text' => 'No',
+							// 'url' => 'https://'.$_SERVER['HTTP_HOST'].'/botsmanager/bots/'.$item->bot->id.'/receive/telegram',
+							'callback_data' => 'No',
+						],
+					],
+				],
+			], JSON_UNESCAPED_UNICODE),
+		]);
 
-			if(!empty($request->input('_ajax')))
-				return '<script>location.href="'.action([static::class, 'index']).'"; </script>';
+		if(!empty($request->input('_ajax')))
+			return '<script>$("#form-send-'.$item->id.'").collapse("hide").trigger("reset")</script>';
 
-			return redirect()->action([static::class, 'index']);
-		}
-
-		return view('botsmanager::subscribers.delete', ['item' => $item]);
+		return redirect();
 	}
-
 }

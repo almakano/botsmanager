@@ -8,6 +8,7 @@ class ManagerServiceProvider extends ServiceProvider
 {
 	protected $commands = [
 		app\Console\Commands\Install::class,
+		app\Console\Commands\LogicsRun::class,
 	];
 
 	public function boot(\Illuminate\Routing\Router $router)

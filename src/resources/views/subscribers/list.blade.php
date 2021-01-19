@@ -27,8 +27,20 @@
 					</div>
 					<div class="card-body"></div>
 					<div class="card-footer">
-						<a class="btn btn-sm" href="/botsmanager/subscribers/{{ $i->id }}/edit">Изменить</a>
-						<a class="btn btn-sm btn-danger" href="/botsmanager/subscribers/{{ $i->id }}/delete">Удалить</a>
+						<span class="float-right">
+							<div class="dropdown">
+								<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Menu</button>
+								<div class="dropdown-menu dropdown-menu-right">
+									<a class="dropdown-item" href="/botsmanager/subscribers/{{ $i->id }}/edit">Изменить</a>
+									<a class="dropdown-item text-danger" href="/botsmanager/subscribers/{{ $i->id }}/delete">Удалить</a>
+									<a class="dropdown-item" href="#form-send-{{ $i->id }}" data-toggle="collapse">Отправить</a>
+								</div>
+							</div>
+						</span>
+						<form method="POST" action="/botsmanager/subscribers/{{ $i->id }}/sendmessage" id="form-send-{{ $i->id }}" class="collapse" data-ajax>
+							<textarea name="message" rows="5" class="form-control"></textarea>
+							<button class="btn btn-primary">Отправить</button>
+						</form>
 					</div>
 				</div>
 			</div>

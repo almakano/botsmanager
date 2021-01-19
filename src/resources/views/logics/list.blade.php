@@ -21,7 +21,8 @@
 					</div>
 					<div class="card-body"></div>
 					<div class="card-footer">
-						<a class="btn" href="/botsmanager/logics/{{ $i->id }}/edit">Изменить</a>
+						<a class="btn btn-sm" href="/botsmanager/logics/{{ $i->id }}/edit">Изменить</a>
+						<a class="btn btn-sm btn-secondary" href="/botsmanager/logics/{{ $i->id }}/run" data-ajax>Запустить</a>
 					</div>
 				</div>
 			</div>

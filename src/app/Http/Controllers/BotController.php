@@ -11,13 +11,24 @@ class BotController extends Controller
 	function index(Request $request)
 	{
 
+		$sorts = [];
+		$keys = \Schema::getColumnListing(with(new Bot)->getTable());
+		foreach($keys as $key) {
+			$sorts[] = $key.' desc';
+			$sorts[] = $key;
+		}
+		$sort = $request->input('sort') ?? 0;
 		$filter = [];
 
 		foreach($request->all() as $k => $v) {
-			if(in_array($k, ['id'])) $filter[$k] = $v;
+			if(in_array($k, $keys)) $filter[] = [$k, 'like', $v.'%'];
 		}
 
-		return view('botsmanager::bots.list', ['list' => Bot::where($filter)->get()]);
+		return view('botsmanager::bots.list', [
+			'list' => Bot::where($filter)->orderByRaw($sorts[$sort])->get(),
+			'sort' => $sort,
+			'sorts' => $sorts,
+		]);
 	}
 
 	function edit(Request $request, $id = 0)
@@ -80,12 +91,16 @@ class BotController extends Controller
 	function receive(Request $request, $id = 0, $platform_name = '')
 	{
 
-		$item = Bot::where(['id' => $id])->firstOrFail();
+		$bot = Bot::where(['id' => $id])->firstOrFail();
 
 		$platform_name = '\almakano\botsmanager\app\Platforms\\'.ucfirst($platform_name);
-		$platform = new $platform_name(['bot' => $item]);
+		$platform = new $platform_name(['bot' => $bot]);
 
 		$platform->receive();
+
+		$bot->logic->run();
+
+		return \Response::json(['status' => 'Ok']);
 	}
 
 	function activate(Request $request, $id = 0, $platform_name = '')

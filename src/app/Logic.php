@@ -18,4 +18,9 @@ class Logic extends Model
 
 		$controller->run();
 	}
+
+	function messages() {
+
+		return SubscriberMessage::whereIn('bot_id', [Bot::where('logic_id', $this->id)->pluck('id')]);
+	}
 }

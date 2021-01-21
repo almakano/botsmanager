@@ -9,6 +9,7 @@
 		Route::any('/', 'BotController@index');
 		Route::any('bots', 'BotController@index');
 		Route::any('bots/autocomplete', 'BotController@autocomplete');
+		Route::any('bots/multiple/{action}', 'BotController@multiple');
 		Route::any('bots/add', 'BotController@edit');
 		Route::any('bots/{id}/edit', 'BotController@edit');
 		Route::any('bots/{id}/delete', 'BotController@delete');
@@ -18,12 +19,14 @@
 
 		Route::any('subscribers', 'SubscriberController@index');
 		Route::any('subscribers/autocomplete', 'SubscriberController@autocomplete');
+		Route::any('subscribers/multiple/{action}', 'SubscriberController@multiple');
 		Route::any('subscribers/add', 'SubscriberController@edit');
 		Route::any('subscribers/{id}/edit', 'SubscriberController@edit');
 		Route::any('subscribers/{id}/delete', 'SubscriberController@delete');
 		Route::any('subscribers/{id}/sendmessage', 'SubscriberController@sendmessage');
 
 		Route::any('subscribermessages', 'SubscriberMessageController@index');
+		Route::any('subscribermessages/multiple/{action}', 'SubscriberMessageController@multiple');
 		Route::any('subscribermessages/autocomplete', 'SubscriberMessageController@autocomplete');
 		Route::any('subscribermessages/add', 'SubscriberMessageController@edit');
 		Route::any('subscribermessages/{id}/edit', 'SubscriberMessageController@edit');
@@ -31,6 +34,7 @@
 
 		Route::any('logics', 'LogicController@index');
 		Route::any('logics/autocomplete', 'LogicController@autocomplete');
+		Route::any('logics/multiple/{action}', 'LogicController@multiple');
 		Route::any('logics/add', 'LogicController@edit');
 		Route::any('logics/{id}/edit', 'LogicController@edit');
 		Route::any('logics/{id}/delete', 'LogicController@delete');

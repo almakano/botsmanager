@@ -3,7 +3,6 @@ namespace almakano\botsmanager\app\Logics;
 
 use almakano\botsmanager\app\Bot;
 use almakano\botsmanager\app\Logic;
-use almakano\botsmanager\app\Subscriber;
 use almakano\botsmanager\app\SubscriberMessage;
 
 class Affise {
@@ -14,10 +13,17 @@ class Affise {
 		$bots		 = Bot::whereIn('logic_id', $logics)->pluck('id');
 		$messages	 = SubscriberMessage::whereRaw('status is NULL')
 						->whereIn('bot_id', $bots)
-						->orderByRaw('id');
+						->orderByRaw('id')
+						->lockForUpdate();
+		$mids		 = $messages->pluck('id');
 
 		$messages->update(['status' => 'processing']);
-		$messages->update(['status' => 'done']);
+
+		$messages	 = SubscriberMessage::whereIn('id', $mids)->get();
+		foreach($messages as $i) {
+			$i->status = 'done';
+			$i->save();
+		}
 	}
 }
 

@@ -1,6 +1,6 @@
 @extends('botsmanager::index')
 
-@section('title', 'Подписчики')
+@section('title', 'Сообщения')
 
 @section('content')
 
@@ -11,24 +11,39 @@
 		</ol>
 	</nav>
 
-	<h1>Подписчики <a class="btn btn-link" href="/botsmanager/subscribers/add">Добавить</a></h1>
+	<h1>
+		<span>@yield('title')</span>
+		<a class="btn btn-link" href="/botsmanager/subscribermessages/add">Добавить</a>
+		<span class="collapse multiple-actions">
+			<span class="dropdown">
+				<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">Выберите действие</button>
+				<div class="dropdown-menu">
+					<button type="button" class="dropdown-item text-danger" href="/botsmanager/subscribermessages/delete" data-ajax>Удалить</button>
+				</div>
+			</span>
+		</span>
+	</h1>
 
 	<div class="table-responsive">
-		<table class="table table-inverse">
+		<table class="table table-inverse table-condensed">
 			<thead>
 				<tr>
+					<th><input type="checkbox" data-checkall></th>
 					<th>Id</th>
 					<th>Подписчик</th>
 					<th>Статус</th>
 					<th>Формат</th>
 					<th>Текст</th>
 					<th>Дата</th>
-					<th></th>
+					<th align="right">
+						<button type="button" class="btn btn-sm" onclick="app.refreshList()">Refresh</button>
+					</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody id="ajax-data">
 				@foreach($list as $i)
 				<tr>
+					<td><input type="checkbox" data-check-id="{{ $i->id }}"></td>
 					<td>{{ $i->id }}</td>
 					<td>{{ $i->subscriber->name }}</td>
 					<td>{{ $i->status }}</td>

@@ -29,5 +29,7 @@
 	<script src="{{ assets_cached('/vendor/botsmanager/bootstrap.min.js') }}"></script>
 	<script src="{{ assets_cached('/vendor/botsmanager/select2.min.js') }}"></script>
 	<script src="{{ assets_cached('/vendor/botsmanager/template.js') }}"></script>
+	@yield('scripts')
+
 </body>
 </html>

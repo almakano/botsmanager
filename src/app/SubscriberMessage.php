@@ -18,4 +18,14 @@ class SubscriberMessage extends Model
 	function bot() {
 		return $this->hasOne(Bot::class, 'id', 'bot_id');
 	}
+
+	function platform() {
+
+		$classname = 'almakano\botsmanager\app\Platforms\\'.ucfirst($this->subscriber->platform_name);
+		$item = new $classname([
+			'bot' => $this->bot
+		]);
+
+		return $item;
+	}
 }

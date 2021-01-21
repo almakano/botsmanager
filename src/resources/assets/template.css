@@ -25,3 +25,31 @@
   right: 15px;
   z-index: 1;
 }
+
+*:hover > .drop {
+  display: block;
+}
+.drop {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  padding: 15px;
+  background: #444;
+}
+
+.form-control {
+  background-color: #454545;
+}
+.form-control:focus {
+  color: #c9c9c9;
+  background-color: #454545;
+}
+.select2-search,
+.select2-search input,
+.select2-results,
+.select2-container--default .select2-selection--single
+{ background-color: #454545; }
+.select2-container--default .select2-selection--single .select2-selection__rendered
+{ color: #c9c9c9; }
+.select2-container--default .select2-results__option--selected
+{ background-color: #0063ff; }

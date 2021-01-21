@@ -18,7 +18,7 @@ class Subscriber extends Model
 
 	function platform() {
 
-		$classname = 'Platforms\\'.ucfirst($this->platform_name);
+		$classname = 'almakano\botsmanager\app\Platforms\\'.ucfirst($this->platform_name);
 		$item = new $classname([
 			'bot' => $this->bot
 		]);

@@ -12,11 +12,20 @@ class LogicsRun extends Command
 
 	public function handle()
 	{
-		$list = Logic::get();
-		foreach($list as $i) {
-			$i->run();
+		$date = time();
+		$this->info('Logics queue: started '.date('Y-m-d H:i:s', $date));
+
+		while(true){
+
+			$list = Logic::get();
+			foreach($list as $i) {
+				$i->run();
+			}
+
+			usleep(1 * 1000000);
 		}
-		$this->info('Logic done');
+
+		$this->info('Logics queue: finished after '.(time() - $date).'s');
 	}
 }
 ?>
